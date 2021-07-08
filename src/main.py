@@ -6,4 +6,6 @@ app = FastAPI(title=settings.PROJECT_TITLE, version=settings.PROJECT_VERSION)
 
 @app.get("/")
 def index():
-  return 'pego véi'
+  return { 
+    'status': 'ok'
+  }

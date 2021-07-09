@@ -1,0 +1,5 @@
+make --dry-run --always-make --keep-going --print-directory
+make: Entering directory '/home/victor/development/github/fast-jobs'
+pip install -r requiriments.txt
+make: Leaving directory '/home/victor/development/github/fast-jobs'
+ 

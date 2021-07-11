@@ -10,7 +10,7 @@ class Jobs(Base):
   location = Column(String, nullable=False)
   is_active = Column(Boolean(), default=True)
   owner_id = Column(Integer, ForeignKey("users.id"))
-  owner = relationship("users", back_populates="jobs")
+  owner = relationship("Users", back_populates="jobs")
   description = Column(String)
   company_url = Column(String)
   date_posted = Column(Date)

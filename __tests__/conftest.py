@@ -49,7 +49,7 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
     connection = engine.connect()
     transaction = connection.begin()
     session = SessionTesting(bind=connection)
-    yield session  # use the session in tests.
+    yield session  # use the session in __tests__.
     session.close()
     transaction.rollback()
     connection.close()

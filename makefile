@@ -13,5 +13,8 @@ create_env:
 run_tests:
 	pytest
 
+run_tests_coverage:
+	pytest --cov="." --cov-report html
+
 run_server:
 	uvicorn src.main:app --reload

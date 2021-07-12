@@ -20,6 +20,14 @@ class JobCreate(JobBase):
     description: str
 
 
+class JobUpdate(JobBase):
+    title: Optional[str]
+    company: Optional[str]
+    location: Optional[str]
+    description: Optional[str]
+    is_active: Optional[bool]
+
+
 class ShowJob(JobBase):
     title: str
     company: str

@@ -6,5 +6,9 @@ env
 sql_app.db
 test_db.db
 
+.coverage
+.pytest_cache
+htmlcov
+
 .vscode
 .idea

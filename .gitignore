@@ -4,6 +4,7 @@ __pycache__
 env
 
 sql_app.db
+test_db.db
 
 .vscode
 .idea

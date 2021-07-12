@@ -10,3 +10,6 @@ python-dotenv
 pydantic[email]
 
 passlib[bcrypt]
+
+pytest
+requests

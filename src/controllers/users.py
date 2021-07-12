@@ -9,13 +9,13 @@ from src.database.repository.users import create_user
 
 router = APIRouter()
 
-@router.post("/", status_code=201, response_model=ShowUser)
+
+@router.post("", status_code=201, response_model=ShowUser)
 def route_create_user(user: UserCreate, database: Session = Depends(get_db)):
     try:
         user = create_user(user, database)
         return user
-    except IntegrityError as excepiton:
-        assert isinstance(excepiton.orig, UniqueViolation)
+    except IntegrityError as exception:
         raise HTTPException(status_code=400, detail="Duplicated key")
-    except BaseException as excpetion:
-        raise HTTPException(status_code=400, detail="Something went wrong. Error: {}".format(excpetion))
+    except BaseException as exception:
+        raise HTTPException(status_code=400, detail="Something went wrong. Error: {}".format(exception))

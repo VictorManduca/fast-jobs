@@ -10,5 +10,8 @@ delete_packages:
 create_env:
 	python3 -m venv env
 
+run_tests:
+	pytest
+
 run_server:
 	uvicorn src.main:app --reload

@@ -29,3 +29,6 @@ If you want to run tests, then: `make run_test`
 - GET `/job` (retrieve details of a job)
 - GET `/job` (retrieve all jobs)
 - GET `/job/all/active` (retrive all active jobs)
+
+## Tests coverage
+<img align="center" src="https://github.com/VictorManduca/fast-jobs/blob/main/assets/images/coverage_report.png">

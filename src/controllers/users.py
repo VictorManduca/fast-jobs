@@ -17,8 +17,11 @@ def route_create_user(user: UserCreate, database: Session = Depends(get_db),
     try:
         user = create_user(user, database)
         return user
-    except IntegrityError as exception:
-        raise exception("Duplicated key")
+    except IntegrityError:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Duplicated key"
+        )
     except BaseException as exception:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,

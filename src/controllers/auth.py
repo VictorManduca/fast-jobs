@@ -57,7 +57,6 @@ def get_current_user_from_token(token: str = Depends(oauth2_scheme), database: S
 
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         username: str = payload.get("sub")
-        print("sabosta eh: ", username)
 
         if username is None:
             raise credentials_exception

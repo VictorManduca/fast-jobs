@@ -6,7 +6,7 @@ from fastapi import FastAPI
 from fastapi.testclient import TestClient
 
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
 import sys
 import os
@@ -14,9 +14,11 @@ import os
 # This is to include backend dir in sys.path so that we can import from db,main.py
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+from src.core.config import settings
 from src.database.class_models import Base
 from src.database.session import get_db
 from src.routes import api_router
+from __tests__.utils.users import authentication_token_from_email
 
 
 def start_application():
@@ -58,7 +60,7 @@ def db_session(app: FastAPI) -> Generator[SessionTesting, Any, None]:
 @pytest.fixture(scope="module")
 def client(app: FastAPI, db_session: SessionTesting) -> Generator[TestClient, Any, None]:
     """
-    Create a new FastAPI TestClient that uses the `db_session` fixture to override
+    Create a new FastAPI TestClient that uses the `database_session` fixture to override
     the `get_db` dependency that is injected into test_routes.
     """
 
@@ -71,3 +73,10 @@ def client(app: FastAPI, db_session: SessionTesting) -> Generator[TestClient, An
     app.dependency_overrides[get_db] = _get_test_db
     with TestClient(app) as client:
         yield client
+
+
+@pytest.fixture(scope="module")
+def normal_user_token_headers(client: TestClient, db_session: Session):
+    return authentication_token_from_email(
+        client=client, email=settings.TEST_USER_EMAIL, database=db_session
+    )

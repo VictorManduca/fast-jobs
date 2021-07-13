@@ -21,6 +21,7 @@
 If you want to run tests, then: `make run_test`
 
 ## URLs
+- `/docs` (access project's swagger page)
 - POST `/login`
 - POST `/user` (create a user)
 

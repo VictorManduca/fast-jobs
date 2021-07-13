@@ -12,7 +12,7 @@
 
 ## Step-by-step
 1) Install the prerequisites
-2) Run `make create_env` -> craete environment
+2) Run `make create_env` -> create environment
 3) Run `. ./env/bin/activate` -> activate environment
 4) Run `make install_packages` -> install project's python packages
 5) Run `make run_server` -> run server in the port 8000

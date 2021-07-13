@@ -14,3 +14,7 @@ passlib[bcrypt]
 pytest
 requests
 pytest-cov
+
+python-jose
+
+python-multipart

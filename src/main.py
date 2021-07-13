@@ -20,9 +20,3 @@ def start_up():
     return app
 
 app = start_up()
-
-@app.get("/")
-def index():
-    return {
-        'status': 'ok'
-    }

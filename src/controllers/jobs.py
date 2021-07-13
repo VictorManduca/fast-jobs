@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
-from src.database.session import get_db
+from src.controllers.auth import get_current_user_from_token
 from src.schemas.jobs import JobCreate, JobUpdate, ShowJob
+from src.database.session import get_db
+from src.database.class_models import Users
 from src.database.repository.jobs import (
     create_job,
     retrieve_job,
@@ -16,9 +18,13 @@ router = APIRouter()
 
 
 @router.post("", status_code=status.HTTP_201_CREATED, response_model=ShowJob)
-def route_create_job(job: JobCreate, database: Session = Depends(get_db)):
+def route_create_job(
+        job: JobCreate,
+        database: Session = Depends(get_db),
+        current_user: Users = Depends(get_current_user_from_token)
+):
     try:
-        owner_id = 1
+        owner_id = current_user.id
         job = create_job(job=job, database=database, owner_id=owner_id)
         return job
     except BaseException as exception:
@@ -29,7 +35,8 @@ def route_create_job(job: JobCreate, database: Session = Depends(get_db)):
 
 
 @router.get("/{job_id}", response_model=ShowJob)
-def route_retrieve_job(job_id: int, database: Session = Depends(get_db)):
+def route_retrieve_job(job_id: int, database: Session = Depends(get_db),
+                       current_user: Users = Depends(get_current_user_from_token)):
     try:
         job = retrieve_job(job_id=job_id, database=database)
         if not job:
@@ -45,7 +52,8 @@ def route_retrieve_job(job_id: int, database: Session = Depends(get_db)):
 
 
 @router.get("")
-def route_retrieve_jobs(database: Session = Depends(get_db)):
+def route_retrieve_jobs(database: Session = Depends(get_db),
+                        current_user: Users = Depends(get_current_user_from_token)):
     try:
         jobs = retrieve_all_jobs(database=database)
         if not jobs:
@@ -60,7 +68,10 @@ def route_retrieve_jobs(database: Session = Depends(get_db)):
 
 
 @router.get("/all/active")
-def route_retrieve_all_active_jobs(database: Session = Depends(get_db)):
+def route_retrieve_all_active_jobs(
+        database: Session = Depends(get_db),
+        current_user: Users = Depends(get_current_user_from_token)
+):
     try:
         jobs = retrieve_all_active_jobs(database=database)
         if not jobs:
@@ -75,9 +86,14 @@ def route_retrieve_all_active_jobs(database: Session = Depends(get_db)):
 
 
 @router.patch("/{job_id}", status_code=status.HTTP_200_OK)
-def route_update_job(job_id: int, job: JobUpdate, database: Session = Depends(get_db)):
+def route_update_job(
+        job_id: int,
+        job: JobUpdate,
+        database: Session = Depends(get_db),
+        current_user: Users = Depends(get_current_user_from_token)
+):
     try:
-        owner_id = 1
+        owner_id = current_user.id
         is_successfully_updated = update_job_by_id(
             job_id=job_id,
             job=job,
@@ -95,9 +111,12 @@ def route_update_job(job_id: int, job: JobUpdate, database: Session = Depends(ge
 
 
 @router.delete("/{job_id}", status_code=status.HTTP_200_OK)
-def route_delete_job(job_id: int, database: Session = Depends(get_db)):
+def route_delete_job(
+        job_id: int,
+        database: Session = Depends(get_db),
+        current_user: Users = Depends(get_current_user_from_token)
+):
     try:
-        owner_id = 1
         is_successfully_deleted = delete_job_by_id(job_id=job_id, database=database)
 
         if not is_successfully_deleted:

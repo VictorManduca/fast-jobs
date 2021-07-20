@@ -1,20 +1,18 @@
 .PHONY: run_server
 
-install_packages:
-	pip install -r requiriments.txt
+create_env:
+	python3 -m venv env
 
 delete_packages:
 	rm -rf env/
 	find . -name '__pycache__' -exec rm -rf {} +
 
-create_env:
-	python3 -m venv env
+install_packages:
+	pip install -r requirements.txt
 
-run_tests:
-	pytest
-
-run_tests_coverage:
-	pytest --cov="." --cov-report html
+uninstall_packages:
+	pip freeze|xargs pip uninstall -y
 
 run_server:
 	uvicorn src.main:app --reload
+
